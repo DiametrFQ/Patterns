@@ -11,3 +11,64 @@ Decorator(Декоратор) - это паттерн проектировани
 
 ## Команда
 Command(Команда) - это паттерн проектирования, который позволяет инкапсулировать запрос в виде объекта, делая его доступным для дальнейшей обработки, передачи или отмены. Команды могут использоваться для реализации транзакций, отмены операций или истории выполненных действий. Команды также могут использоваться для реализации паттерна "Команда" в пользовательском интерфейсе, где каждое действие пользователя представляется в виде команды, которая может быть выполнена, отменена или повторена.
+
+
+```plantuml
+
+@startuml
+
+class ConstructionCompany {
+  -instance: ConstructionCompany
+  -padlock: object
+  +Instance : ConstructionCompany
+  +StartConstruction()
+  +CompleteConstruction()
+}
+
+interface IConstruction {
+  +Build()
+}
+
+class Construction {
+  +Build()
+}
+
+abstract class ConstructionDecorator {
+  -construction: IConstruction
+  +Build()
+}
+
+class Architect {
+  +Build()
+}
+
+class Contractor {
+  +Build()
+}
+
+interface ICommand {
+  +Execute()
+}
+
+class StartConstructionCommand {
+  -company: ConstructionCompany
+  +Execute()
+}
+
+class CompleteConstructionCommand {
+  -company: ConstructionCompany
+  +Execute()
+}
+
+ConstructionCompany --> IConstruction
+IConstruction <|-- Construction
+IConstruction <|-- ConstructionDecorator
+ConstructionDecorator <|-- Architect
+ConstructionDecorator <|-- Contractor
+ConstructionCompany --> ICommand
+StartConstructionCommand --> ConstructionCompany
+CompleteConstructionCommand --> ConstructionCompany
+
+@enduml
+
+```
